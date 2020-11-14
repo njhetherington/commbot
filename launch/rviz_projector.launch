@@ -1,0 +1,8 @@
+<launch>
+	<arg name="topic_projection" default="projection" doc="projection image topic"/> <!-- !MUST MATCH frame_ids/projection PARAM! -->
+	<group ns="commbot">
+		<!-- prevent crashing by publishing one empty projection image -->
+		<node name="dummy_projector" pkg="rostopic" type="rostopic" args="pub $(arg topic_projection) visualization_msgs/MarkerArray {} --once"/>
+		<node name="rviz_projector" pkg="rviz" type="rviz" args="-d $(find commbot)/rviz/projector.rviz"/>
+	</group>
+</launch>

@@ -1,0 +1,56 @@
+<launch>
+    
+    <!-- launch options -->
+    <arg name="is_debug" default="false" doc="run Commbot node with gdb"/>
+    <arg name="is_lights_arduino" default="false" doc="connect to lights Arduino over serial"/>
+    <arg name="is_bag" default="false" doc="use rosbag instead of online nav and tf data"/>
+    <arg name="is_viz_lights" default="false" doc="visualize lights in projection rviz" />
+
+    <arg name="frame_robot" default="base_link" doc="robot frame_id"/> <!-- !MUST MATCH frame_ids/robot PARAM! -->
+    <arg name="frame_projection" default="projection" doc="projection image frame_id"/> <!-- !MUST MATCH frame_ids/projection PARAM! -->
+
+    <!-- use rosbag instead of online nav and tf data -->
+    <group if="$(arg is_bag)">
+        <arg name="bag" /> <!-- rosbag to play -->
+        <node name="rosbag_player" pkg="rosbag" type="play" args="--clock $(arg bag)"/> <!-- play rosbag -->
+        <param name="use_sim_time" value="true"/>
+    </group>  
+
+    <!-- projection image static transform -->
+    <arg name="projection_tf_x" default="0"/>
+    <arg name="projection_tf_y" default="0"/>
+    <arg name="projection_tf_z" default="0"/>
+    <arg name="projection_tf_roll" default="0"/>
+    <arg name="projection_tf_pitch" default="0"/>
+    <arg name="projection_tf_yaw" default="1.57079632679"/>
+       
+    <group ns="commbot">
+        
+        <!-- parameter files -->
+        <rosparam file="$(find commbot)/yaml/supervisor.yaml" command="load"/>
+        <rosparam file="$(find commbot)/yaml/commbot.yaml" command="load"/>
+
+        <!-- main Commbot node (option to run with gdb) -->
+        <node if="$(arg is_debug)" name="commbot" pkg="commbot" type="commbot" output="screen" launch-prefix="xterm -e gdb --args" />
+        <node unless="$(arg is_debug)" name="commbot" pkg="commbot" type="commbot" output="screen" />
+  
+        <!-- robot frame -> projection frame transform -->
+        <!-- exlcude if is_bag because rosbag should include this tf -->
+        <node unless="$(arg is_bag)" name="projection_tf_broadcaster" pkg="tf" type="static_transform_publisher"
+        args="$(arg projection_tf_x) $(arg projection_tf_y) $(arg projection_tf_z) 
+        $(arg projection_tf_yaw) $(arg projection_tf_pitch) $(arg projection_tf_roll) 
+        $(arg frame_robot) $(arg frame_projection) 10"/>
+
+        <!-- for cue activation and tuning -->
+        <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" />
+        
+        <!-- Connect to lights Arduino over serial-->
+        <node if="$(arg is_lights_arduino)" name="arduino_serial" pkg="rosserial_python" type="serial_node.py" args="/dev/ttyACM0" respawn="true"/>
+
+        <!-- visualize lights in projection rviz -->
+        <node if="$(arg is_viz_lights)" name="lights_viz" pkg="commbot" type="lights_visualizer" output="screen" respawn="true" />
+
+    </group>
+
+</launch>
+   

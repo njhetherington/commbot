@@ -1,0 +1,15 @@
+<launch>
+
+	<arg name="goal_id"/>
+	<arg name="is_debug" default="false"/>
+
+	<param name="commbot/goal_id" value="$(arg goal_id)"/>	
+
+	<node unless="$(arg is_debug)" ns="commbot" name="supervisor" pkg="commbot" type="supervisor" output="screen"/>
+	<node if="$(arg is_debug)" launch-prefix="xterm -e gdb --args" ns="commbot" name="supervisor" pkg="commbot" type="supervisor" output="screen"/>
+
+	<!-- set initial pose -->
+        <node name="pub_initial_pose" pkg="rostopic" type="rostopic"
+            args="pub --once /initialpose geometry_msgs/PoseWithCovarianceStamped '{header:{seq: 0, stamp: 0, frame_id: 'map'}, pose:{ pose:{ position:{x: 16, y: 5, z: 0.0}, orientation:{x: 0.0,y: 0.0,z: 0.707, w: 0.707}}, covariance: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}}'"/>
+
+</launch>

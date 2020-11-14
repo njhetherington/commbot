@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>commbot</name>
+  <version>1.0.0</version>
+  <description>The commbot package</description>
+  <maintainer email="nicholas.j.hetherington@gmail.com">Nick Hetherington</maintainer>
+  <author email="nicholas.j.hetherington@gmail.com">Nick Hetherington</author>
+  <license>BSD-3-Clause</license>
+
+  <build_depend>message_generation</build_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>message_runtime</exec_depend>
+  
+  <depend>roscpp</depend>
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>Boost</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+  <depend>tf2_geometry_msgs</depend>
+
+</package>

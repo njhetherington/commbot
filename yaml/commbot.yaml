@@ -1,0 +1,38 @@
+frame_ids:
+  world: "map"
+  robot: "base_link"
+  projection: "projection"
+
+topics:
+  path: "/move_base/TrajectoryPlannerROS/global_plan"
+  waypoints: "waypoints"
+  lights: "lights_states"
+  projector: "projection"
+
+min_prox_waypoint: 1.5 # to activate goal cue
+
+# projection
+markers:
+  goal:
+    dashes:
+      scale:
+        x: 0.25
+        y: 0 # unused
+        z: 0 # unused
+      color:
+        g: 1.0
+    arrow:
+      scale:
+        x: 0.25
+        y: 1
+        z: 2
+      color:
+        g: 1.0
+  trajectory:
+    arrow:
+      color:
+        g: 1.0
+      scale:
+        x: 1
+        y: 1.25
+        z: 2
