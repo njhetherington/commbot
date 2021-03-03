@@ -10,7 +10,7 @@ These *motion legibility cues* communicate a mobile robot's forthcoming motion t
 
 **Notes**:
 * This package was only tested in the scenarios described in Chapter 3 of my [thesis](https://open.library.ubc.ca/cIRcle/collections/ubctheses/24/items/1.0394282), for the purpose of video demonstration for human-subjects experimentation.
-* The videos used during the experiments are compiled into a single video [here](https://youtu.be/Y32ARqOEFMs). The videos are labelled by Cue Type, Cue Mode, and Robot Movement Scenario (see below).
+* The videos used during the experiments are compiled into a single video [here](https://youtu.be/BQUwUYU2pPA). The videos are labelled by Cue Type, Cue Mode, and Robot Movement Scenario (see below).
 * This package has been tested on Ubuntu 16 with ROS1 Kinetic and Ubuntu 18 with ROS1 Melodic.
 * I assume the reader is familiar with [ROS1](https://www.ros.org/).
 * Stay tuned for a publication in the 2021 IEEE International Conference on Robotics and Automation (ICRA) - hopefully.
